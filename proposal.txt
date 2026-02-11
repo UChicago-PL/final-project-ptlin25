@@ -1,0 +1,18 @@
+For the final project, I plan on creating a sudoku solver as well as a sudoku 
+puzzle generator. The solving algorithm will be a mix of backtracking and human 
+strategies such as naked single and hidden single. The generator will start from
+a randomized filled puzzle and remove digits while retaining a unique solution.
+
+Milestones
+Easy
+- Basic puzzle representation
+- Verifier
+- Naked single 
+- Hidden single
+
+Medium
+- Backtracking
+- TUI (using brick library?)
+
+Challenge
+- Puzzle generator with seed
