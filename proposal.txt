@@ -10,13 +10,12 @@ puzzle is solvable. If the puzzle fails this check, the clue will be reintroduce
 Milestones
 Easy
 - Basic puzzle representation
-- Verifier
 - Naked single 
 - Hidden single
 
 Medium
-- Backtracking
-- BLR
+- Puzzle verifier (backtracking)
+- Intersection removal
 - Hidden/Naked pairs
 
 Challenge
