@@ -1,0 +1,41 @@
+This program has two uses; it can be used to solve a sudoku puzzle or it can be
+used to generate a random sudoku puzzle from a seed.
+
+Types.hs defines the types that are used in the program. 
+
+Board.hs and Candidate.hs contains code for storing the board's state and 
+manipulating a board's state. Each cell in the board can either be a digit or a 
+list of candidate digits that could be placed in that cell.
+
+Main.hs takes in the command-line arguments and calls the requisite functions.
+
+Solver.hs contains the logic for solving a sudoku board. This program uses 6
+constraint propagation techniques; in order of complexity: naked single, hidden 
+single, pointing pairs, box-line reduction, naked-pair, and hidden pair. At each
+step, the solver applies the techniques it order of complexity until a valid 
+move can be made. A move can be either be placing a digit in a cell (like writing a
+digit in ) or eliminating a candidate from that cell. The techniques are defined
+in the Techniques directory and were implemented following the descriptions in 
+https://www.sudokuwiki.org/Strategy_Families and https://hodoku.sourceforge.net/en/tech_intro.php.
+
+To run the solver on a single puzzle: "cabal run -- --solve <puzzle>"
+To run the solver on multiple puzzles: "cabal run -- --solve < puzzle.txt"
+
+Each puzzle must be a single-line string of 81 characters. Use the digits 1-9 for 
+cells containing clues and either . or 0 for blank cells. Concatenate the characters 
+together in row-major order.
+
+puzzle.txt contains 5 test puzzles that can be solved by the solver. The first 4
+were found on the web and the last one is generated with seed 12.
+
+Generator.hs contains the logic for generating a sudoku puzzle. The generator starts
+with a randomized solved puzzle. Then, it shuffles the 81 positions and iterates
+through them. At each step, the generator attempts to remove the clue (digit) at
+the given position. It checks that the resulting puzzle can be solved using the
+same techniques used by the (logic) solver and that the resulting puzzle has 
+exactly one unique solution. The uniqueness check is done via a backtracking
+solver. If the checks fail, the clue is added back. The result is a puzzle that
+is guaranteed to have only 1 solution that is solvable by human techniques.
+
+To run the generator: "cabal run -- --generator <seed>"
+

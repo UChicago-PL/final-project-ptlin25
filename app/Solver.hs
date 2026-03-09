@@ -8,6 +8,9 @@ import Techniques.Pairs
 import Techniques.Intersection
 
 import Control.Monad (msum)
+import Data.List (minimumBy)
+import Data.Ord (comparing)
+import qualified Data.Set as S
 
 type Technique = Board -> Maybe Move
 
@@ -32,6 +35,30 @@ solve b
     | otherwise  = case solveStep b of
         Nothing      -> Nothing
         Just (b', _) -> solve b'
+
+-- Pick the unsolved cell with fewest candidates for branching.
+pickCell :: Board -> Maybe (Pos, S.Set Digit)
+pickCell b =
+    let unsolved = [(p, cs) | p <- positions, Cands cs <- [getCell b p]]
+    in case unsolved of
+        [] -> Nothing
+        _  -> Just (minimumBy (comparing (S.size . snd)) unsolved)
+
+-- Lazily enumerate all solutions via backtracking.
+-- Uses constraint propagation (existing techniques) before branching.
+solutions :: Board -> [Board]
+solutions b
+    | isSolved b = [b]
+    | otherwise  = case solveStep b of
+        Just (b', _) -> solutions b'
+        Nothing      -> case pickCell b of
+            Nothing      -> []
+            Just (p, cs) -> concatMap branch (S.toList cs)
+              where branch d = maybe [] solutions (assign b p d)
+
+-- True iff the board has exactly one solution.
+hasUniqueSolution :: Board -> Bool
+hasUniqueSolution b = length (take 2 (solutions b)) == 1
 
 -- Parse, initialize candidates, and solve.
 solveFromString :: String -> Either String Board

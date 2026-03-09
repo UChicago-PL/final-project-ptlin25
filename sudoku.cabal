@@ -17,5 +17,5 @@ common std
 executable sudoku
     import:           std
     main-is:          Main.hs
-    other-modules:    Types, Solver, Board, Candidates, Techniques.Singles, Techniques.Pairs, Techniques.Intersection
+    other-modules:    Types, Solver, Board, Candidates, Generator, Techniques.Singles, Techniques.Pairs, Techniques.Intersection
 
