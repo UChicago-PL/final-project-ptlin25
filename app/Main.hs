@@ -11,7 +11,7 @@ main = do
     case args of
         ["--solve"]          -> interact (unlines . map solve . lines)
         ["--generate", seed] -> putStrLn (displayBoard (generatePuzzle (read seed)))
-        _                    -> putStrLn "Usage: sudoku --solve | sudoku --generate <seed>"
+        _                    -> putStrLn "Usage: sudoku -- --solve | sudoku -- --generate <seed>"
 
 solve :: String -> String
 solve input =
